@@ -24,6 +24,15 @@ POINT ImageVector::GetCoordinate()
 	return this->coordinate;
 }
 
+void ImageVector::SetCoordinate(POINT value)
+{
+	this->coordinate = value;
+	this->start.x = coordinate.x - 2;
+	this->start.y = coordinate.y - 2;
+	this->end.x = coordinate.x + 2;
+	this->end.y = coordinate.y + 2;
+}
+
 void ImageVector::ChangeColor(COLORREF color)
 {
 	DeleteColorObjects();
@@ -38,6 +47,43 @@ void ImageVector::Draw(HDC hdc)
 	Ellipse(hdc, start.x, start.y, end.x, end.y);	
 	SelectObject(hdc, prevPen);
 	SelectObject(hdc, prevBrush);
+}
+
+ImageVector * ImageVector::GetRandomImageVector(int max_x, int max_y)
+{		
+	POINT coordinate;	
+	coordinate.x = rand() % (max_x + 1);
+	coordinate.y = rand() % (max_y + 1);
+	BYTE color_r{ BYTE(rand() % 256) };
+	BYTE color_g{ BYTE(rand() % 256) };
+	BYTE color_b{ BYTE(rand() % 256) };
+
+	COLORREF color = RGB(color_r, color_g, color_b);
+
+	ImageVector* result = new ImageVector(coordinate, color);
+
+	return result;
+}
+
+bool ImageVector::CompareTo(ImageVector * obj)
+{
+	if (obj == nullptr)
+	{
+		return false;
+	}
+	if (obj == this)
+	{
+		return true;
+	}
+	if (obj->coordinate.x != this->coordinate.x)
+	{
+		return false;
+	}
+	if (obj->coordinate.y != this->coordinate.y)
+	{
+		return false;
+	}	
+	return true;
 }
 
 void ImageVector::DeleteColorObjects()

@@ -61,7 +61,7 @@
       <Filter>Own</Filter>
     </ClInclude>
     <ClInclude Include="DrawingLogic.h">
-      <Filter>Заголовочные файлы</Filter>
+      <Filter>Own</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -93,7 +93,7 @@
       <Filter>Own</Filter>
     </ClCompile>
     <ClCompile Include="DrawingLogic.cpp">
-      <Filter>Файлы исходного кода</Filter>
+      <Filter>Own</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

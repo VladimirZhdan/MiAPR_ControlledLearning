@@ -41,3 +41,50 @@ void DrawingLogic::Drawing(HDC hdc, RECT clientRect, vector<ImageVector*> image_
 	DeleteDC(bufferHDC);
 	DeleteObject(bitmap);
 }
+
+//Генерирует случайны список, состоящий из ImageVector*, содержащий неповторяющиеся элементы
+//Предусловия: count, max_x, max_y - целые положительные числа
+vector<ImageVector*> DrawingLogic::GenerateRandomImageVectorList(int count, int max_x, int max_y)
+{
+	if (count < 0 || max_x < 0 || max_y < 0)
+	{
+		throw invalid_argument("Неверные агрументы функции GenerateRandomImageVectorList");
+	}
+
+	srand(time(NULL));
+
+	vector<ImageVector*> result;
+	
+	ImageVector* added_image_vector = nullptr;
+	for (int i = 0; i < count; ++i)
+	{
+		do
+		{
+			if (added_image_vector != nullptr)
+			{
+				delete(added_image_vector); //Проверить, становиться ли nullptr0
+				added_image_vector = nullptr;
+			}
+			added_image_vector = ImageVector::GetRandomImageVector(800, 600);
+		} while (CheckRepeated(result, added_image_vector));
+		result.push_back(added_image_vector);
+		added_image_vector = nullptr;
+	}
+
+	return result;
+}
+
+bool DrawingLogic::CheckRepeated(vector<ImageVector*> image_vector_list, ImageVector * value)
+{
+	bool result = false;
+
+	for (int i = 0; (i < image_vector_list.size()) && !result; ++i)
+	{
+		if (image_vector_list[i]->CompareTo(value))
+		{
+			result = true;
+		}
+	}
+
+	return result;
+}

@@ -34,12 +34,7 @@ void MainWindow::Init()
 	RECT clientRect;
 	GetClientRect(hWnd, &clientRect);
 
-	POINT point;
-	point.x = 100;
-	point.y = 100;
-	ImageVector* image_vector = new ImageVector(point, RGB(0, 0, 255));
-
-	image_vector_list.push_back(image_vector);
+	image_vector_list = DrawingLogic::GenerateRandomImageVectorList(1000, 800, 600);	
 }
 
 void MainWindow::DrawImageVectorList(HDC hdc)
