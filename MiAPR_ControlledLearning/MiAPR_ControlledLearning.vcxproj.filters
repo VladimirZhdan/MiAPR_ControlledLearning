@@ -19,6 +19,9 @@
     <Filter Include="Dialogs">
       <UniqueIdentifier>{eb91e9e3-ef22-447d-9e6d-6a82bf22ee8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Own">
+      <UniqueIdentifier>{ea60c16b-cabe-40a0-9e11-e33c8e3dc630}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -54,6 +57,12 @@
     <ClInclude Include="DialogManager.h">
       <Filter>Dialogs</Filter>
     </ClInclude>
+    <ClInclude Include="ImageVector.h">
+      <Filter>Own</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawingLogic.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -79,6 +88,12 @@
     </ClCompile>
     <ClCompile Include="DialogManager.cpp">
       <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageVector.cpp">
+      <Filter>Own</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingLogic.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

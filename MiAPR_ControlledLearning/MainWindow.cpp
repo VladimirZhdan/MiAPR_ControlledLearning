@@ -12,6 +12,11 @@ MainWindow::MainWindow() : Window(MainWndProc, _T("MAINWINDOW"), _T("Контролируе
 
 MainWindow::~MainWindow()
 {
+	for (int i = image_vector_list.size() - 1; i >= 0; --i)
+	{
+		delete(image_vector_list[i]);
+		image_vector_list.pop_back();
+	}
 }
 
 void MainWindow::Show()
@@ -27,7 +32,22 @@ void MainWindow::Hide()
 void MainWindow::Init()
 {
 	RECT clientRect;
-	GetClientRect(hWnd, &clientRect);	
+	GetClientRect(hWnd, &clientRect);
+
+	POINT point;
+	point.x = 100;
+	point.y = 100;
+	ImageVector* image_vector = new ImageVector(point, RGB(0, 0, 255));
+
+	image_vector_list.push_back(image_vector);
+}
+
+void MainWindow::DrawImageVectorList(HDC hdc)
+{
+	RECT clientRect;
+	GetClientRect(hWnd, &clientRect);
+
+	DrawingLogic::Drawing(hdc, clientRect, image_vector_list);
 }
 
 static MainWindow *mainWindow = (MainWindow*)((WindowManager::GetInstance())->GetWindow(WINDOW_TYPE::MAIN));
@@ -61,10 +81,13 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 	}
 	break;
 	case WM_PAINT:
-	{
+	{		
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 		// TODO: Добавьте сюда любой код прорисовки, использующий HDC...
+
+		mainWindow->DrawImageVectorList(hdc);						
+
 		EndPaint(hWnd, &ps);
 	}
 	break;

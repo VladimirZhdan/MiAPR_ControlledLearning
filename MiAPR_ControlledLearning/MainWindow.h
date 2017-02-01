@@ -4,6 +4,9 @@
 #include "resource.h"
 #include "WindowManager.h"
 #include "DialogManager.h"
+#include "DrawingLogic.h"
+#include <vector>
+#include "ImageVector.h"
 
 class MainWindow : public Window
 {
@@ -15,14 +18,16 @@ public:
 private:
 	//fields
 
-	HMENU hMenu;
+	std::vector<ImageVector*> image_vector_list;
 
 	//controls
 
+	HMENU hMenu;
 
 	//methods
 
 	void Init();
+	void DrawImageVectorList(HDC hdc);
 
 	//friends procs
 
