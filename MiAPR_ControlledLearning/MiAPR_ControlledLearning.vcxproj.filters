@@ -63,6 +63,12 @@
     <ClInclude Include="DrawingLogic.h">
       <Filter>Own</Filter>
     </ClInclude>
+    <ClInclude Include="ImageVectorsRegion.h">
+      <Filter>Own</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlledLearningLogic.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -94,6 +100,12 @@
     </ClCompile>
     <ClCompile Include="DrawingLogic.cpp">
       <Filter>Own</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageVectorsRegion.cpp">
+      <Filter>Own</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlledLearningLogic.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

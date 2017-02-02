@@ -7,6 +7,7 @@
 #include "DrawingLogic.h"
 #include <vector>
 #include "ImageVector.h"
+#include "ControlledLearningLogic.h"
 
 class MainWindow : public Window
 {
@@ -19,6 +20,7 @@ private:
 	//fields
 
 	std::vector<ImageVector*> image_vector_list;
+	ControlledLearningLogic* controlled_learning;
 
 	//controls
 

@@ -34,7 +34,38 @@ void MainWindow::Init()
 	RECT clientRect;
 	GetClientRect(hWnd, &clientRect);
 
-	image_vector_list = DrawingLogic::GenerateRandomImageVectorList(1000, 800, 600);	
+	image_vector_list = DrawingLogic::GenerateRandomImageVectorList(4000, 800, 600);	
+
+	vector<ImageVector*> core_list;
+	
+	POINT point1;
+	point1.x = 100;
+	point1.y = 100;
+
+	ImageVector* new_core1 = new ImageVector(point1, RGB(0, 0, 0));
+
+	core_list.push_back(new_core1);
+
+	POINT point2;
+	point2.x = 500;
+	point2.y = 400;
+
+	ImageVector* new_core2 = new ImageVector(point2, RGB(0, 0, 0));
+
+	core_list.push_back(new_core2);
+
+
+	POINT point3;
+	point3.x = 700;
+	point3.y = 100;
+
+	ImageVector* new_core3 = new ImageVector(point3, RGB(0, 0, 0));
+
+	core_list.push_back(new_core3);
+
+	controlled_learning = new ControlledLearningLogic(core_list, image_vector_list);
+
+	controlled_learning->PerformNextStepPackingRegions();
 }
 
 void MainWindow::DrawImageVectorList(HDC hdc)
@@ -56,6 +87,8 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
 		lpMMI->ptMinTrackSize.x = 800;
 		lpMMI->ptMinTrackSize.y = 600;
+		lpMMI->ptMaxTrackSize.x = 800;
+		lpMMI->ptMaxTrackSize.y = 600;
 	}
 	break;
 	case WM_COMMAND:

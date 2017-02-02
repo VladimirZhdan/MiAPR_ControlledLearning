@@ -12,6 +12,7 @@ public:
 	void ChangeColor(COLORREF color);
 	void Draw(HDC hdc);
 	static ImageVector* GetRandomImageVector(int max_x, int max_y);
+	static COLORREF GetRandomColor();
 	bool CompareTo(ImageVector* obj);
 private:
 	//fields

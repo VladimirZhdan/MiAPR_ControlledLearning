@@ -53,16 +53,22 @@ ImageVector * ImageVector::GetRandomImageVector(int max_x, int max_y)
 {		
 	POINT coordinate;	
 	coordinate.x = rand() % (max_x + 1);
-	coordinate.y = rand() % (max_y + 1);
-	BYTE color_r{ BYTE(rand() % 256) };
-	BYTE color_g{ BYTE(rand() % 256) };
-	BYTE color_b{ BYTE(rand() % 256) };
+	coordinate.y = rand() % (max_y + 1);	
 
-	COLORREF color = RGB(color_r, color_g, color_b);
+	COLORREF color = GetRandomColor();
 
 	ImageVector* result = new ImageVector(coordinate, color);
 
 	return result;
+}
+
+COLORREF ImageVector::GetRandomColor()
+{
+	BYTE color_r{ BYTE(rand() % 256) };
+	BYTE color_g{ BYTE(rand() % 256) };
+	BYTE color_b{ BYTE(rand() % 256) };
+
+	return RGB(color_r, color_g, color_b);
 }
 
 bool ImageVector::CompareTo(ImageVector * obj)

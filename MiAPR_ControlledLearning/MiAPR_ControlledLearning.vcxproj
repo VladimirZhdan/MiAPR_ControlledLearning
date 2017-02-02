@@ -146,9 +146,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AboutDialog.h" />
+    <ClInclude Include="ControlledLearningLogic.h" />
     <ClInclude Include="Dialog.h" />
     <ClInclude Include="DialogManager.h" />
     <ClInclude Include="DrawingLogic.h" />
+    <ClInclude Include="ImageVectorsRegion.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MiAPR_ControlledLearning.h" />
     <ClInclude Include="Resource.h" />
@@ -160,9 +162,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutDialog.cpp" />
+    <ClCompile Include="ControlledLearningLogic.cpp" />
     <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="DialogManager.cpp" />
     <ClCompile Include="DrawingLogic.cpp" />
+    <ClCompile Include="ImageVectorsRegion.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MiAPR_ControlledLearning.cpp" />
     <ClCompile Include="stdafx.cpp">
