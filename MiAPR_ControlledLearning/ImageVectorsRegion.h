@@ -15,6 +15,8 @@ public:
 
 	void AddImageVectorToRegion(ImageVector* value);
 	void ClearRegion();
+
+	void FindAndDefineRegionCore();
 	~ImageVectorsRegion();
 private:
 	//fields		
@@ -23,5 +25,6 @@ private:
 	ImageVector* old_core;
 	ImageVector* current_core;
 	std::vector<ImageVector*> image_vector_list;
+	bool is_core_completed;
 };
 

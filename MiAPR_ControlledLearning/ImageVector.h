@@ -1,6 +1,13 @@
 #pragma once
 
 #include <time.h>
+#include <cmath>
+
+#include <string>
+#include <iostream>
+#include <locale>
+#include <vector>
+#include <algorithm>
 
 class ImageVector
 {
@@ -14,6 +21,9 @@ public:
 	static ImageVector* GetRandomImageVector(int max_x, int max_y);
 	static COLORREF GetRandomColor();
 	bool CompareTo(ImageVector* obj);
+	double DistanceTo(ImageVector *obj);
+	double SquaredDistanceTo(ImageVector *obj);
+
 private:
 	//fields
 

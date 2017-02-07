@@ -63,9 +63,7 @@ void MainWindow::Init()
 
 	core_list.push_back(new_core3);
 
-	controlled_learning = new ControlledLearningLogic(core_list, image_vector_list);
-
-	controlled_learning->PerformNextStepPackingRegions();
+	controlled_learning = new ControlledLearningLogic(core_list, &image_vector_list);	
 }
 
 void MainWindow::DrawImageVectorList(HDC hdc)
@@ -75,6 +73,31 @@ void MainWindow::DrawImageVectorList(HDC hdc)
 
 	DrawingLogic::Drawing(hdc, clientRect, image_vector_list);
 }
+
+void MainWindow::PerformNextStep()
+{
+	controlled_learning->PerformNextStepPackingRegions();
+	InvalidateRect(hWnd, NULL, TRUE);
+}
+
+void MainWindow::PerformAllSteps()
+{		
+	unsigned int hWaitingUninstallProgramThread = _beginthreadex(NULL, 0, PerformAllStepsThreadFunc, this, 0, NULL);
+}
+
+unsigned __stdcall MainWindow::PerformAllStepsThreadFunc(void* param)
+{
+	MainWindow *thisWindow = (MainWindow*)param;
+	ControlledLearningLogic* controlled_learning = thisWindow->controlled_learning;
+
+	while (!controlled_learning->IsFormRegionsCompleted())
+	{
+		thisWindow->PerformNextStep();
+	}
+
+	return 0;
+}
+
 
 static MainWindow *mainWindow = (MainWindow*)((WindowManager::GetInstance())->GetWindow(WINDOW_TYPE::MAIN));
 
@@ -97,6 +120,15 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		// Разобрать выбор в меню:
 		switch (wmId)
 		{
+		case IDM_DEFINECORES:
+			// Установить статус начала выполнения
+			break;
+		case IDM_NEXTSTEP:
+			mainWindow->PerformNextStep();
+			break;
+		case IDM_PERFORM_ALLSTEPS:
+			mainWindow->PerformAllSteps();
+			break;
 		case IDM_ABOUT:
 			DialogManager::GetInstance()->ShowDialog(DIALOG_TYPE::ABOUT, hWnd);
 			break;

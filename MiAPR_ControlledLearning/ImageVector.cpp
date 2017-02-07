@@ -13,7 +13,6 @@ ImageVector::ImageVector(POINT coordinate, COLORREF color)
 	this->end.y = coordinate.y + 2;
 }
 
-
 ImageVector::~ImageVector()
 {
 	DeleteColorObjects();
@@ -90,6 +89,36 @@ bool ImageVector::CompareTo(ImageVector * obj)
 		return false;
 	}	
 	return true;
+}
+
+double ImageVector::DistanceTo(ImageVector * obj)
+{
+	if (obj == nullptr)
+	{
+		throw std::runtime_error("Null Reference Exception of Agrument in DistanceTo method(class ImageVector)");
+	}
+
+	double result_distance = this->SquaredDistanceTo(obj);
+	result_distance = pow(result_distance, 0.5);
+
+	return result_distance;
+}
+
+double ImageVector::SquaredDistanceTo(ImageVector * obj)
+{
+	if (obj == nullptr)
+	{
+		throw std::runtime_error("Null Reference Exception of Agrument in DistanceTo method(class ImageVector)");
+	}
+
+	POINT start_point = this->GetCoordinate();
+	POINT end_point = obj->GetCoordinate();
+
+	double result_distance = 0;
+	result_distance += pow(end_point.x - start_point.x, 2);
+	result_distance += pow(end_point.y - start_point.y, 2);	
+
+	return result_distance;
 }
 
 void ImageVector::DeleteColorObjects()

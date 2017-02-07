@@ -1,11 +1,16 @@
 #include "stdafx.h"
 #include "ControlledLearningLogic.h"
 
-ControlledLearningLogic::ControlledLearningLogic(std::vector<ImageVector*> core_list, std::vector<ImageVector*> image_vector_list)
+ControlledLearningLogic::ControlledLearningLogic(std::vector<ImageVector*> core_list, std::vector<ImageVector*>* image_vector_list)
 {
 	this->image_vector_list = image_vector_list;
 	Init(core_list);
-	is_define_regions_completed = false;
+	is_form_regions_completed = false;
+
+	for (ImageVector* core : core_list)
+	{
+		image_vector_list->push_back(core);
+	}
 }
 
 void ControlledLearningLogic::Init(std::vector<ImageVector*> core_list)
@@ -16,16 +21,22 @@ void ControlledLearningLogic::Init(std::vector<ImageVector*> core_list)
 		new_region->SetCore(core);
 		region_list.push_back(new_region);
 	}
-}
-
-void ControlledLearningLogic::PerformNextStepPackingRegions()
-{
 	DefineRegions();
 }
 
-bool ControlledLearningLogic::IsDefineRegionsCompleted()
+void ControlledLearningLogic::PerformNextStepPackingRegions()
+{		
+	for (ImageVectorsRegion* region : region_list)
+	{
+		region->FindAndDefineRegionCore();
+	}
+	DefineRegions();	
+	DefineIsFormRegionsCompleted();
+}
+
+bool ControlledLearningLogic::IsFormRegionsCompleted()
 {
-	return is_define_regions_completed;
+	return is_form_regions_completed;
 }
 
 ControlledLearningLogic::~ControlledLearningLogic()
@@ -42,16 +53,16 @@ void ControlledLearningLogic::DefineRegions()
 	double min_distance;
 	double current_distance;
 	ImageVectorsRegion* choosen_region;
-	for (ImageVector* image_vector : image_vector_list)
+	for (ImageVector* image_vector : *image_vector_list)
 	{		
 		if (region_list.size() > 0)		
 		{
 			choosen_region = region_list[0];
-			min_distance = FindDistance(image_vector, region_list[0]->GetCore());
+			min_distance = image_vector->DistanceTo(region_list[0]->GetCore());				
 
 			for (int i = 1; i < region_list.size(); ++i)
 			{
-				current_distance = FindDistance(image_vector, region_list[i]->GetCore());
+				current_distance = image_vector->DistanceTo(region_list[i]->GetCore());				
 				if (current_distance < min_distance)
 				{
 					min_distance = current_distance;
@@ -64,15 +75,14 @@ void ControlledLearningLogic::DefineRegions()
 	}
 }
 
-double ControlledLearningLogic::FindDistance(ImageVector * start, ImageVector * end)
+void ControlledLearningLogic::DefineIsFormRegionsCompleted()
 {
-	POINT start_point = start->GetCoordinate();
-	POINT end_point = end->GetCoordinate();
+	bool is_completed = true;
 
-	double result_distance = 0;
-	result_distance += pow(end_point.x - start_point.x, 2);
-	result_distance += pow(end_point.y - start_point.y, 2);
-	result_distance = pow(result_distance, 0.5);
+	for (ImageVectorsRegion* region : region_list)
+	{
+		is_completed &= region->IsCoreCompleted();
+	}
 
-	return result_distance;
+	is_form_regions_completed = is_completed;
 }

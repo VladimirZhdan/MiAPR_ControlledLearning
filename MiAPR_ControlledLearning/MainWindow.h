@@ -8,6 +8,7 @@
 #include <vector>
 #include "ImageVector.h"
 #include "ControlledLearningLogic.h"
+#include <process.h>
 
 class MainWindow : public Window
 {
@@ -30,6 +31,8 @@ private:
 
 	void Init();
 	void DrawImageVectorList(HDC hdc);
+	void PerformNextStep();
+	void PerformAllSteps();
 
 	//friends procs
 
@@ -39,5 +42,7 @@ private:
 		WPARAM,
 		LPARAM
 	);
+
+	static unsigned __stdcall PerformAllStepsThreadFunc(void* param);
 };
 
