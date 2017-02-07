@@ -25,11 +25,20 @@ void ControlledLearningLogic::Init(std::vector<ImageVector*> core_list)
 }
 
 void ControlledLearningLogic::PerformNextStepPackingRegions()
-{		
+{	
+	long sync_variable = region_list.size();
+
 	for (ImageVectorsRegion* region : region_list)
 	{
-		region->FindAndDefineRegionCore();
+		region->DefineRegionCore(&sync_variable);
 	}
+
+	while (InterlockedCompareExchange(&sync_variable, 1, 0) != 0)
+	{
+		Sleep(10);
+		//Yield();
+	}
+
 	DefineRegions();	
 	DefineIsFormRegionsCompleted();
 }
@@ -39,12 +48,20 @@ bool ControlledLearningLogic::IsFormRegionsCompleted()
 	return is_form_regions_completed;
 }
 
+void ControlledLearningLogic::DrawRegions(HDC hdc)
+{
+	for (ImageVectorsRegion* region : region_list)
+	{
+		region->Draw(hdc);
+	}
+}
+
 ControlledLearningLogic::~ControlledLearningLogic()
 {
 }
 
 void ControlledLearningLogic::DefineRegions()
-{
+{	
 	for (ImageVectorsRegion* region : region_list)
 	{
 		region->ClearRegion();

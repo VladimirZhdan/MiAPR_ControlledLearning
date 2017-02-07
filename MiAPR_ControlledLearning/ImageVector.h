@@ -12,11 +12,10 @@
 class ImageVector
 {
 public:
-	ImageVector(POINT center, COLORREF color);
+	ImageVector(POINT center);
 	~ImageVector();
 	POINT GetCoordinate();
-	void SetCoordinate(POINT value);
-	void ChangeColor(COLORREF color);
+	void SetCoordinate(POINT value);	
 	void Draw(HDC hdc);
 	static ImageVector* GetRandomImageVector(int max_x, int max_y);
 	static COLORREF GetRandomColor();
@@ -30,11 +29,7 @@ private:
 	POINT coordinate;
 	POINT start;
 	POINT end;
-	HPEN hPen;
-	HBRUSH hBrush;
 
-	//methods
-
-	void DeleteColorObjects();
+	//methods	
 };
 

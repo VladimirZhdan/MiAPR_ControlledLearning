@@ -42,7 +42,7 @@ void MainWindow::Init()
 	point1.x = 100;
 	point1.y = 100;
 
-	ImageVector* new_core1 = new ImageVector(point1, RGB(0, 0, 0));
+	ImageVector* new_core1 = new ImageVector(point1);
 
 	core_list.push_back(new_core1);
 
@@ -50,7 +50,7 @@ void MainWindow::Init()
 	point2.x = 500;
 	point2.y = 400;
 
-	ImageVector* new_core2 = new ImageVector(point2, RGB(0, 0, 0));
+	ImageVector* new_core2 = new ImageVector(point2);
 
 	core_list.push_back(new_core2);
 
@@ -59,7 +59,7 @@ void MainWindow::Init()
 	point3.x = 700;
 	point3.y = 100;
 
-	ImageVector* new_core3 = new ImageVector(point3, RGB(0, 0, 0));
+	ImageVector* new_core3 = new ImageVector(point3);
 
 	core_list.push_back(new_core3);
 
@@ -71,7 +71,7 @@ void MainWindow::DrawImageVectorList(HDC hdc)
 	RECT clientRect;
 	GetClientRect(hWnd, &clientRect);
 
-	DrawingLogic::Drawing(hdc, clientRect, image_vector_list);
+	DrawingLogic::Drawing(hdc, clientRect, controlled_learning);
 }
 
 void MainWindow::PerformNextStep()

@@ -12,7 +12,7 @@ DrawingLogic::~DrawingLogic()
 {
 }
 
-void DrawingLogic::Drawing(HDC hdc, RECT clientRect, vector<ImageVector*> image_vector_list)
+void DrawingLogic::Drawing(HDC hdc, RECT clientRect, ControlledLearningLogic* controlled_learning_logic)
 {
 	int windowWidth = clientRect.right - clientRect.left;
 	int windowHeight = clientRect.bottom - clientRect.top;
@@ -25,10 +25,7 @@ void DrawingLogic::Drawing(HDC hdc, RECT clientRect, vector<ImageVector*> image_
 		HGDIOBJ oldBitmap = SelectObject(bufferHDC, bitmap);
 		FillRect(bufferHDC, &clientRect, (HBRUSH)WHITE_BRUSH);
 
-		for (ImageVector* image_vector : image_vector_list)
-		{
-			image_vector->Draw(bufferHDC);
-		}
+		controlled_learning_logic->DrawRegions(bufferHDC);		
 
 		BitBlt(hdc, 0, 0, windowWidth, windowHeight, bufferHDC, 0, 0, SRCCOPY);
 		SelectObject(bufferHDC, oldBitmap);
@@ -62,10 +59,10 @@ vector<ImageVector*> DrawingLogic::GenerateRandomImageVectorList(int count, int 
 		{
 			if (added_image_vector != nullptr)
 			{
-				delete(added_image_vector); //Проверить, становиться ли nullptr0
+				delete(added_image_vector);
 				added_image_vector = nullptr;
 			}
-			added_image_vector = ImageVector::GetRandomImageVector(800, 600);
+			added_image_vector = ImageVector::GetRandomImageVector(max_x, max_y);
 		} while (CheckRepeated(result, added_image_vector));
 		result.push_back(added_image_vector);
 		added_image_vector = nullptr;

@@ -12,6 +12,7 @@ public:
 	void Init(std::vector<ImageVector*> core_list);
 	void PerformNextStepPackingRegions();	
 	bool IsFormRegionsCompleted();
+	void DrawRegions(HDC hdc);
 	~ControlledLearningLogic();
 private:
 	//fields
@@ -22,6 +23,6 @@ private:
 
 	//methods
 	void DefineRegions();
-	void DefineIsFormRegionsCompleted();
+	void DefineIsFormRegionsCompleted();	
 };
 
