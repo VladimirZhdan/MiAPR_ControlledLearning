@@ -34,6 +34,12 @@ Dialog* DialogManager::GetDialog(DIALOG_TYPE dlgType, HWND hWndParent)
 			aboutDialog = new AboutDialog(hWndParent);
 		}
 		return aboutDialog;
+	case DIALOG_TYPE::CHOOSECORES:
+		if (chooseDialog == NULL)
+		{
+			chooseDialog = new ChooseRegionsCoresDialog(hWndParent);
+		}
+		return chooseDialog;
 	default:
 		return nullptr;
 	}

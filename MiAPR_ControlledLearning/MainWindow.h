@@ -15,13 +15,17 @@ class MainWindow : public Window
 public:
 	MainWindow();
 	~MainWindow();
+	void ClearData();
 	void Show();
 	void Hide();
+	void SetInitialData(int regions_cores_count, int image_vectors_count);
 private:
 	//fields
 
 	std::vector<ImageVector*> image_vector_list;
 	ControlledLearningLogic* controlled_learning;
+	int image_vectors_count;
+	int regions_cores_count;
 
 	//controls
 

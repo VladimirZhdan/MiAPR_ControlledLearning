@@ -58,6 +58,11 @@ void ControlledLearningLogic::DrawRegions(HDC hdc)
 
 ControlledLearningLogic::~ControlledLearningLogic()
 {
+	for (int i = region_list.size() - 1; i >= 0; --i)
+	{
+		delete(region_list[i]);
+		region_list.pop_back();
+	}
 }
 
 void ControlledLearningLogic::DefineRegions()

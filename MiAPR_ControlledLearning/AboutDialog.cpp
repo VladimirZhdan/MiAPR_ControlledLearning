@@ -11,11 +11,11 @@ AboutDialog::~AboutDialog()
 }
 
 INT_PTR CALLBACK AboutDialog::AboutDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
+{		
 	UNREFERENCED_PARAMETER(lParam);
 	switch (message)
 	{
-	case WM_INITDIALOG:
+	case WM_INITDIALOG:		
 		return (INT_PTR)TRUE;
 
 	case WM_COMMAND:

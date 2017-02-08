@@ -6,16 +6,29 @@ MainWindow::MainWindow() : Window(MainWndProc, _T("MAINWINDOW"), _T("Контролируе
 {
 	hMenu = LoadMenu(WindowManager::GetHInstance(), MAKEINTRESOURCE(IDC_MIAPR_CONTROLLEDLEARNING));
 	SetMenu(hWnd, hMenu);
+	regions_cores_count = 10;
+	image_vectors_count = 10000;
 	Init();
 }
 
 
 MainWindow::~MainWindow()
 {
+	ClearData();
+}
+
+void MainWindow::ClearData()
+{
 	for (int i = image_vector_list.size() - 1; i >= 0; --i)
 	{
 		delete(image_vector_list[i]);
 		image_vector_list.pop_back();
+	}
+
+	if (controlled_learning != nullptr)
+	{
+		delete(controlled_learning);
+		controlled_learning = nullptr;
 	}
 }
 
@@ -29,41 +42,36 @@ void MainWindow::Hide()
 	Window::Hide();
 }
 
+void MainWindow::SetInitialData(int regions_cores_count, int image_vectors_count)
+{
+	this->regions_cores_count = regions_cores_count;
+	this->image_vectors_count = image_vectors_count;
+	Init();
+}
+
 void MainWindow::Init()
 {
+	ClearData();
+
 	RECT clientRect;
 	GetClientRect(hWnd, &clientRect);
 
-	image_vector_list = DrawingLogic::GenerateRandomImageVectorList(4000, 800, 600);	
+	long height = 800;
+	long width = 600;
+
+	image_vector_list = DrawingLogic::GenerateRandomImageVectorList(image_vectors_count, height, width);
 
 	vector<ImageVector*> core_list;
 	
-	POINT point1;
-	point1.x = 100;
-	point1.y = 100;
+	for (int i = 0; i < regions_cores_count; ++i)
+	{
+		ImageVector* temp_vector = ImageVector::GetRandomImageVector(height, width);
+		core_list.push_back(temp_vector);
+	}	
 
-	ImageVector* new_core1 = new ImageVector(point1);
+	controlled_learning = new ControlledLearningLogic(core_list, &image_vector_list);
 
-	core_list.push_back(new_core1);
-
-	POINT point2;
-	point2.x = 500;
-	point2.y = 400;
-
-	ImageVector* new_core2 = new ImageVector(point2);
-
-	core_list.push_back(new_core2);
-
-
-	POINT point3;
-	point3.x = 700;
-	point3.y = 100;
-
-	ImageVector* new_core3 = new ImageVector(point3);
-
-	core_list.push_back(new_core3);
-
-	controlled_learning = new ControlledLearningLogic(core_list, &image_vector_list);	
+	InvalidateRect(hWnd, NULL, FALSE);
 }
 
 void MainWindow::DrawImageVectorList(HDC hdc)
@@ -77,11 +85,15 @@ void MainWindow::DrawImageVectorList(HDC hdc)
 void MainWindow::PerformNextStep()
 {
 	controlled_learning->PerformNextStepPackingRegions();
-	InvalidateRect(hWnd, NULL, TRUE);
+	InvalidateRect(hWnd, NULL, FALSE);
 }
 
 void MainWindow::PerformAllSteps()
 {		
+	EnableMenuItem(hMenu, IDM_DEFINECORES, MF_DISABLED);
+	EnableMenuItem(hMenu, IDM_NEXTSTEP, MF_DISABLED);
+	EnableMenuItem(hMenu, IDM_PERFORM_ALLSTEPS, MF_DISABLED);
+	
 	unsigned int hWaitingUninstallProgramThread = _beginthreadex(NULL, 0, PerformAllStepsThreadFunc, this, 0, NULL);
 }
 
@@ -94,6 +106,12 @@ unsigned __stdcall MainWindow::PerformAllStepsThreadFunc(void* param)
 	{
 		thisWindow->PerformNextStep();
 	}
+
+	MessageBox(thisWindow->hWnd, _T("Completed"), _T("Information"), MB_OK);
+
+	EnableMenuItem(thisWindow->hMenu, IDM_DEFINECORES, MF_ENABLED);
+	EnableMenuItem(thisWindow->hMenu, IDM_NEXTSTEP, MF_ENABLED);
+	EnableMenuItem(thisWindow->hMenu, IDM_PERFORM_ALLSTEPS, MF_ENABLED);
 
 	return 0;
 }
@@ -119,18 +137,18 @@ LRESULT CALLBACK MainWindow::MainWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		int wmId = LOWORD(wParam);
 		// Разобрать выбор в меню:
 		switch (wmId)
-		{
-		case IDM_DEFINECORES:
-			// Установить статус начала выполнения
-			break;
+		{		
 		case IDM_NEXTSTEP:
 			mainWindow->PerformNextStep();
 			break;
 		case IDM_PERFORM_ALLSTEPS:
 			mainWindow->PerformAllSteps();
 			break;
-		case IDM_ABOUT:
+		case IDM_ABOUT:			
 			DialogManager::GetInstance()->ShowDialog(DIALOG_TYPE::ABOUT, hWnd);
+			break;
+		case IDM_DEFINECORES:
+			DialogManager::GetInstance()->ShowDialog(DIALOG_TYPE::CHOOSECORES, hWnd);
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);

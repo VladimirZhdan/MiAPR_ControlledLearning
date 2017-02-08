@@ -69,6 +69,9 @@
     <ClInclude Include="ControlledLearningLogic.h">
       <Filter>Own</Filter>
     </ClInclude>
+    <ClInclude Include="ChooseRegionsCoresDialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="ControlledLearningLogic.cpp">
       <Filter>Own</Filter>
+    </ClCompile>
+    <ClCompile Include="ChooseRegionsCoresDialog.cpp">
+      <Filter>Dialogs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

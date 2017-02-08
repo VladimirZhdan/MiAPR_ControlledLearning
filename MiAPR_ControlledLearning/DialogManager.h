@@ -5,10 +5,12 @@
 #include "WindowManager.h"
 
 #include "AboutDialog.h"
+#include "ChooseRegionsCoresDialog.h"
 
 enum class DIALOG_TYPE
 {
-	ABOUT
+	ABOUT,
+	CHOOSECORES
 };
 
 class DialogManager
@@ -21,4 +23,6 @@ public:
 private:
 	Dialog* GetDialog(DIALOG_TYPE, HWND hWndParent);
 	AboutDialog *aboutDialog;
+	ChooseRegionsCoresDialog* chooseDialog;
+
 };

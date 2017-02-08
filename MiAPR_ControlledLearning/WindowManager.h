@@ -31,6 +31,10 @@ public:
 	Window* GetWindow(WINDOW_TYPE wndType);
 	void ShowWindow(WINDOW_TYPE wndType);
 
+	//logic methods
+
+	void SetInitialData(int regions_cores_count, int image_vectors_count);
+
 private:
 	//fields
 	static HINSTANCE hInstance;

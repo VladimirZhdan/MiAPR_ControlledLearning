@@ -49,3 +49,11 @@ void WindowManager::ShowWindow(WINDOW_TYPE wndType)
 	targetWindow->Show();
 	activeWindow = (Window*)targetWindow;	
 }
+
+void WindowManager::SetInitialData(int regions_cores_count, int image_vectors_count)
+{
+	if (mainWindow != NULL)
+	{
+		mainWindow->SetInitialData(regions_cores_count, image_vectors_count);
+	}
+}
